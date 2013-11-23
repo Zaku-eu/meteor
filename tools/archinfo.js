@@ -153,7 +153,7 @@ var host = function () {
       else
         throw new Error("Unsupported architecture: " + machine);
     }
-
+      _host = "os.linux.armv7l";
     else
       throw new Error("Unsupported operating system: " + uname);
   }

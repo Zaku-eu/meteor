@@ -1293,6 +1293,8 @@ _.extend(ServerTarget.prototype, {
     var archToPlatform = {
       'os.linux.x86_32': 'Linux_i686',
       'os.linux.x86_64': 'Linux_x86_64',
+      'os.linux.armv6l': 'Linux_ARMv6l',
+      'os.linux.armv7l': 'Linux_ARMv7l',
       'os.osx.x86_64': 'Darwin_x86_64'
     };
     var arch = archinfo.host();
@@ -1427,6 +1429,14 @@ var writeSiteArchive = function (targets, outputPath, options) {
         target.write(builder.enter(paths[name]),
                      { omitDependencyKit: options.nodeModulesMode === "skip",
                        getRelativeTargetPath: getRelativeTargetPath });
+
+        // It is useful to show this, when someone is hacking meteor to run
+        // on an unsupported platform/achitecture.
+        console.log( "name: " + name + ", paths[name]: " + paths[name] + ", relControlFilePath: " + relControlFilePath );
+
+        // Make sure it's a string even if it's undefined (in case someone
+        // hacks meteor to run on an unsupported platform/architecture)
+        relControlFilePath = "/" + relControlFilePath;
       json.programs.push({
         name: name,
         arch: target.mostCompatibleArch(),
